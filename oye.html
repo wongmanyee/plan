@@ -14,7 +14,7 @@
   /* left side picture */
   .image-side {
     flex:1;
-    background:url('your-photo.jpg') center/cover no-repeat;
+    background:url('IMG_4123.jpg') center/cover no-repeat;
   }
   /* right side lock screen */
   .lock-side {
@@ -74,8 +74,6 @@
 </head>
 <body>
 
-<div class="image-side"></div>
-
 <div class="lock-side">
   <h1>Enter Passcode</h1>
 
@@ -105,7 +103,7 @@
 </div>
 
 <script>
-  const correct = "1212";    // ← change to your passcode
+  const correct = "1212";    
   let entered = "";
 
   function press(num){
@@ -114,7 +112,7 @@
       updateDots();
       if(entered.length === correct.length){
         if(entered === correct){
-          window.location.href = "humandiary.html"; // ← target page
+          window.location.href = "humandiary.html"; 
         } else {
           alert("Wrong code!");
           clearCode();
@@ -132,7 +130,6 @@
     updateDots();
   }
 
-  // 👇 Replace the phone number with the one you want to open in WhatsApp
   function emergency(){
    // window.open("https://wa.me/60163618084", "_blank");
     window.location.href = "facetime-audio:+60163618084";

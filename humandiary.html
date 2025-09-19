@@ -3,61 +3,216 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Countdown to 22 Oct 2025</title>
+<title>Birthday Countdown</title>
 <style>
-  body {
-    margin:0;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:#111;
-    color:#fff;
-    font-family:Arial, sans-serif;
-    flex-direction:column;
+  html,body{
+    margin:0;padding:0;height:100%;
+    font-family:"Comic Sans MS","Trebuchet MS",sans-serif;
+    overflow:hidden;color:#fff;
   }
-  h1 {
-    margin-bottom:20px;
-    font-size:2em;
+  /* Pastel background */
+  body{
+    background:linear-gradient(120deg,#ffdde1,#ee9ca7,#a1c4fd,#c2e9fb);
+    background-size:400% 400%;animation:pastelBG 15s ease infinite;
   }
-  #timer {
-    font-size:2.5em;
-    letter-spacing:2px;
+  @keyframes pastelBG{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
   }
+  #countdown-section,#invite-section{
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    text-align:center;min-height:100vh;
+  }
+  h1{font-size:2em;margin:20px;text-shadow:2px 2px 4px #000}
+  #timer{font-size:2.5em;text-shadow:2px 2px 4px #000;position:relative}
+  .sparkle{position:absolute;width:6px;height:6px;background:white;
+    border-radius:50%;opacity:0.8;animation:sparkleAnim 2s infinite ease-in-out}
+  @keyframes sparkleAnim{
+    0%,100%{transform:scale(0.5);opacity:0.3}
+    50%{transform:scale(1.2);opacity:1}
+  }
+  .floating{position:absolute;width:70px;height:70px;
+    background-size:contain;background-repeat:no-repeat;
+    opacity:0.9;animation:floatUp linear infinite}
+  @keyframes floatUp{
+    0%{transform:translateY(100vh) rotate(0deg)}
+    100%{transform:translateY(-120vh) rotate(360deg)}
+  }
+  #confetti-canvas{
+    position:fixed;top:0;left:0;width:100%;height:100%;
+    pointer-events:none;z-index:999;
+  }
+  #next-btn{
+    display:none;margin-top:40px;padding:12px 28px;font-size:1.2em;
+    background:#fff;color:#c95d63;border:none;border-radius:30px;
+    cursor:pointer;font-weight:bold;
+    box-shadow:0 4px 6px rgba(0,0,0,0.2);
+  }
+  /* --- invitation page style --- */
+  #invite-section{
+    display:none;
+    background:#fdf6f0;
+    color:#333;
+    font-family:Arial,sans-serif;
+    padding:40px;
+  }
+  #invite-section h1{color:#c95d63;font-size:2.5em;text-shadow:none}
+  .details{margin-top:20px;font-size:1.2em;line-height:1.6;}
+  .footer{margin-top:40px;font-style:italic;color:#777;}
 </style>
 </head>
 <body>
 
-<h1>Countdown to 22 Oct 2025</h1>
-<div id="timer">Loading…</div>
+<!-- Countdown screen -->
+<div id="countdown-section">
+  <h1>Countdown to [Partner’s Name] Birthday 🎂</h1>
+  <div id="timer">Loading…</div>
+  <button id="next-btn">Next ➜</button>
+</div>
+
+<!-- Invitation page -->
+<div id="invite-section">
+  <h1>🎉 Happy Birthday, [Partner’s Name]! 🎉</h1>
+  <p class="details">
+    I can’t wait to celebrate your special day!<br><br>
+    <strong>Date:</strong> Wednesday, 22 October 2025<br>
+    <strong>Time:</strong> 7:00 PM (or your chosen time)<br>
+    <strong>Place:</strong> [Insert venue or address]<br><br>
+    Let’s enjoy an evening of laughter, good food and surprises!
+  </p>
+  <p class="footer">Best wishes,<br>[Your Name]</p>
+</div>
+
+<canvas id="confetti-canvas"></canvas>
 
 <script>
-  // Set the target date (local time)
-  const targetDate = new Date("2025-10-22T00:00:00");
+const targetDate = new Date("2025-08-22T00:00:00");
+const timerEl = document.getElementById("timer");
+const nextBtn = document.getElementById("next-btn");
+const countdownSection = document.getElementById("countdown-section");
+const inviteSection = document.getElementById("invite-section");
+let confettiStarted = false;
+let floatingInterval;
+let floatingActive = false;
 
-  function updateTimer(){
-    const now = new Date();
-    const diff = targetDate - now;
+function updateTimer(){
+  const now = new Date();
+  const diff = targetDate - now;
 
-    if (diff <= 0) {
-      document.getElementById("timer").textContent = "The day has arrived!";
-      clearInterval(interval);
-      return;
+  if (diff <= 0) {
+    timerEl.textContent = "🎉 Time to Celebrate! 🎉";
+    if (!confettiStarted){
+      stopFloating();
+      startConfetti();
+      confettiStarted = true;
+      nextBtn.style.display = "inline-block"; // show button
     }
-
-    const days    = Math.floor(diff / (1000*60*60*24));
-    const hours   = Math.floor((diff / (1000*60*60)) % 24);
-    const minutes = Math.floor((diff / (1000*60)) % 60);
-    const seconds = Math.floor((diff / 1000) % 60);
-
-    document.getElementById("timer").textContent =
-      `${days} days ${hours} hrs ${minutes} min ${seconds} sec`;
+    return;
   }
 
-  // Update every second
-  updateTimer();
-  const interval = setInterval(updateTimer, 1000);
-</script>
+  const d = Math.floor(diff/(1000*60*60*24));
+  const h = Math.floor((diff/(1000*60*60))%24);
+  const m = Math.floor((diff/(1000*60))%60);
+  const s = Math.floor((diff/1000)%60);
+  timerEl.textContent = `${d} days ${h} hrs ${m} min ${s} sec`;
+}
+updateTimer();
+setInterval(updateTimer,1000);
 
+// sparkles
+for(let i=0;i<20;i++){
+  const s=document.createElement('div');
+  s.classList.add('sparkle');
+  s.style.left=Math.random()*100+'%';
+  s.style.top=Math.random()*100+'%';
+  s.style.animationDelay=(Math.random()*2)+'s';
+  timerEl.appendChild(s);
+}
+
+// floating icons
+const icons=[
+  "https://cdn-icons-png.flaticon.com/512/3075/3075977.png",
+  "https://cdn-icons-png.flaticon.com/512/942/942748.png",
+  "https://cdn-icons-png.flaticon.com/512/616/616408.png",
+  "https://cdn-icons-png.flaticon.com/512/833/833472.png"
+];
+function createFloating(){
+  if(!floatingActive)return;
+  const f=document.createElement('div');
+  f.classList.add('floating');
+  f.style.left=Math.random()*100+'vw';
+  f.style.backgroundImage=`url(${icons[Math.floor(Math.random()*icons.length)]})`;
+  const dur=10+Math.random()*10;
+  f.style.animationDuration=dur+'s';
+  document.body.appendChild(f);
+  setTimeout(()=>f.remove(),(dur*1000)+500);
+}
+function startFloating(){
+  if(floatingActive)return;
+  if(new Date()>=targetDate)return;
+  floatingActive=true;
+  createFloating();
+  floatingInterval=setInterval(createFloating,1000);
+}
+function stopFloating(){
+  floatingActive=false;
+  if(floatingInterval){clearInterval(floatingInterval);floatingInterval=null;}
+  document.querySelectorAll('.floating').forEach(el=>el.remove());
+}
+if(new Date()<targetDate){startFloating();}
+
+// confetti
+function startConfetti(){
+  const canvas=document.getElementById('confetti-canvas');
+  const ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+  const confettiCount=150;
+  const confetti=[];
+  for(let i=0;i<confettiCount;i++){
+    confetti.push({
+      x:Math.random()*canvas.width,
+      y:Math.random()*canvas.height-canvas.height,
+      r:Math.random()*6+4,
+      d:Math.random()*confettiCount+10,
+      color:`hsl(${Math.random()*360},100%,50%)`
+    });
+  }
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    confetti.forEach(c=>{
+      ctx.beginPath();
+      ctx.fillStyle=c.color;
+      ctx.ellipse(c.x,c.y,c.r,c.r/2,Math.random()*Math.PI,0,2*Math.PI);
+      ctx.fill();
+    });
+    update();
+    requestAnimationFrame(draw);
+  }
+  function update(){
+    confetti.forEach(c=>{
+      c.y += (Math.cos(c.d)+3 + c.r/2)/2;
+      c.x += Math.sin(0.5);
+      if(c.y>canvas.height){
+        c.x=Math.random()*canvas.width;
+        c.y=-10;
+      }
+    });
+  }
+  draw();
+}
+window.addEventListener('resize',()=>{
+  const canvas=document.getElementById('confetti-canvas');
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+});
+
+// switch to invitation when NEXT is clicked
+nextBtn.addEventListener('click',()=>{
+  countdownSection.style.display='none';
+  inviteSection.style.display='flex';
+});
+</script>
 </body>
 </html>
