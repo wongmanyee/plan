@@ -3,61 +3,349 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Countdown to 22 Oct 2025</title>
+<title>Birthday Countdown</title>
 <style>
-  body {
-    margin:0;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:#111;
+  html,body{
+    margin:0;padding:0;height:100%;
+    font-family:"Comic Sans MS","Trebuchet MS",sans-serif;
     color:#fff;
-    font-family:Arial, sans-serif;
-    flex-direction:column;
   }
-  h1 {
-    margin-bottom:20px;
+  /* Pastel background */
+  body{
+    background:linear-gradient(120deg,#ffdde1,#ee9ca7,#a1c4fd,#c2e9fb);
+    background-size:400% 400%;animation:pastelBG 15s ease infinite;
+  }
+  @keyframes pastelBG{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+  }
+  #countdown-section, #invite-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* THIS centers children horizontally */
+    text-align: center;
+    min-height: 100vh;
+}
+
+  h1{
     font-size:2em;
-  }
-  #timer {
+    margin:20px;
+    text-shadow:2px 2px 4px #000}
+
+  h2{
+    font-size:3em;
+    margin:20px;
+    text-shadow:2px 2px 4px #000;
+    color:#c95d63;
+    text-shadow:none}
+
+  #timer{
     font-size:2.5em;
-    letter-spacing:2px;
+    text-shadow:2px 2px 4px #000;
+    position:relative}
+  .sparkle{
+    position:absolute;
+    width:6px;
+    height:6px;background:white;
+    border-radius:50%;
+    opacity:0.8;
+    animation:sparkleAnim 2s infinite ease-in-out}
+  @keyframes sparkleAnim{
+    0%,100%{transform:scale(0.5);opacity:0.3}
+    50%{transform:scale(1.2);opacity:1}
+  }
+  .floating{
+    position:absolute;
+    width:70px;
+    height:70px;
+    background-size:contain;
+    background-repeat:no-repeat;
+    opacity:0.9;
+    animation:floatUp linear infinite}
+  @keyframes floatUp{
+    0%{transform:translateY(100vh) rotate(0deg)}
+    100%{transform:translateY(-120vh) rotate(360deg)}
+  }
+  #confetti-canvas{
+    position:fixed;top:0;left:0;width:100%;height:100%;
+    pointer-events:none;z-index:999;
+  }
+  #next-btn{
+    display:none;margin-top:40px;padding:12px 28px;font-size:1.2em;
+    background:#fff;color:#c95d63;border:none;border-radius:30px;
+    cursor:pointer;font-weight:bold;
+    box-shadow:0 4px 6px rgba(0,0,0,0.2);
+  }
+  /* --- invitation page style --- */
+  #invite-section{
+    display:none;
+    color:#333;
+    font-family:Arial,sans-serif;
+    padding:40px;
+  }
+  #invite-section h1{color:#c95d63;font-size:2.5em;text-shadow:none}
+  .details{margin-top:20px;font-size:1.2em;line-height:1.6;}
+  .footer{margin-top:40px;font-style:italic;color:#777;} 
+
+  .inv-img {
+    max-width: 300px;
+    width: 80%;
+    height: auto;
+    border-radius: 20px;
+    margin: 20px auto;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+
+  .gift-code {
+    margin: 30px auto;
+    padding: 20px;
+    max-width: 300px;
+    border: 2px dashed #c95d63;
+    border-radius: 10px;
+    background: #fff;
+    font-size: 1.3em;
+    display: none; /* hidden until revealed */
+  }
+
+    .reveal-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #c95d63;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .reveal-btn:hover {
+    background: #a0444b;
+  }
+
+  .music-btn {
+    display: inline-flex;             
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    height: 70px;
+    margin-top: 40px;                
+    border-radius: 50%;
+    background: #c95d63;
+    color: white;
+    font-size: 2.5rem;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: background 0.3s, transform 0.2s;
+}
+
+
+  .music-btn:hover {
+    background:#a7464c;
+    transform:scale(1.05);
   }
 </style>
 </head>
 <body>
 
-<h1>Countdown to 22 Oct 2025</h1>
-<div id="timer">Loading…</div>
+<!-- Countdown screen -->
+<div id="countdown-section" style="overflow: hidden;">
+  <h1>Countdown to Human Diary Birthday 🎂</h1>
+  <div id="timer">Loading…</div>
+  <button id="next-btn">Next ➜</button>
+</div>
+
+<!-- Invitation page -->
+<div id="invite-section">
+  <h2> Happy Birthday, OYE! </h2>
+  <h1>🎉 Time to Celebrate! 🎉</h1>
+    
+  <img src="IMG_2584.JPG" alt="Birthday Celebration" class="inv-img">
+
+<p class="details">
+  I can’t wait to celebrate your special day!<br><br>
+  <strong>Date:</strong> Wednesday, 22 October 2025<br>
+  <strong>Time:</strong> 6:00 PM (or your chosen time)<br>
+  <strong>Place:</strong> [Insert venue or address]<br><br>
+</p>
+
+<div class="extra">
+  <p><strong>Theme:</strong> Starry Night – sparkles & shades of navy blue ✨</p>
+  <p><strong>Dress Code:</strong> Smart casual with a touch of silver 💫</p>
+  <p><strong>Notes:</strong> Come hungry and ready for a fun night! 🎶</p>
+</div>
+<p class="details">
+  Let’s enjoy an evening of laughter, good food and surprises!
+</p>
+
+
+<button class="reveal-btn" onclick="document.querySelector('.gift-code').style.display='block'">
+  🎁 Reveal Gift Code
+</button>
+
+<div class="gift-code">
+  Your Gift Code: <strong>OYE35BDAYGIFT</strong>
+</div>
+  <p class="footer">Best wishes,<br>MY</p>
+
+<!-- 🎶 Hidden audio -->
+<audio id="bgMusic" src="message.mp3" autoplay loop></audio>
+
+<!-- ▶/⏸ circular button -->
+<button id="musicBtn" class="music-btn">▶</button>
+</div>
+<canvas id="confetti-canvas"></canvas>
 
 <script>
-  // Set the target date (local time)
-  const targetDate = new Date("2025-10-22T00:00:00");
+const targetDate = new Date("2024-10-22T00:00:00");
+const timerEl = document.getElementById("timer");
+const nextBtn = document.getElementById("next-btn");
+const countdownSection = document.getElementById("countdown-section");
+const inviteSection = document.getElementById("invite-section");
+let confettiStarted = false;
+let floatingInterval;
+let floatingActive = false;
 
-  function updateTimer(){
-    const now = new Date();
-    const diff = targetDate - now;
+function updateTimer(){
+  const now = new Date();
+  const diff = targetDate - now;
 
-    if (diff <= 0) {
-      document.getElementById("timer").textContent = "The day has arrived!";
-      clearInterval(interval);
-      return;
+  if (diff <= 0) {
+    if (!confettiStarted){
+      stopFloating();
+      startConfetti();
+      confettiStarted = true;
     }
-
-    const days    = Math.floor(diff / (1000*60*60*24));
-    const hours   = Math.floor((diff / (1000*60*60)) % 24);
-    const minutes = Math.floor((diff / (1000*60)) % 60);
-    const seconds = Math.floor((diff / 1000) % 60);
-
-    document.getElementById("timer").textContent =
-      `${days} days ${hours} hrs ${minutes} min ${seconds} sec`;
+    countdownSection.style.display='none';
+    inviteSection.style.display='flex';
+    return;
   }
 
-  // Update every second
-  updateTimer();
-  const interval = setInterval(updateTimer, 1000);
-</script>
+  const d = Math.floor(diff/(1000*60*60*24));
+  const h = Math.floor((diff/(1000*60*60))%24);
+  const m = Math.floor((diff/(1000*60))%60);
+  const s = Math.floor((diff/1000)%60);
+  timerEl.textContent = `${d} days ${h} hrs ${m} min ${s} sec`;
+  nextBtn.style.display = "inline-block"; // show button
+}
+updateTimer();
+setInterval(updateTimer,1000);
 
+// sparkles
+for(let i=0;i<20;i++){
+  const s=document.createElement('div');
+  s.classList.add('sparkle');
+  s.style.left=Math.random()*100+'%';
+  s.style.top=Math.random()*100+'%';
+  s.style.animationDelay=(Math.random()*2)+'s';
+  timerEl.appendChild(s);
+}
+
+// floating icons
+const icons=[
+  "https://cdn-icons-png.flaticon.com/512/3075/3075977.png",
+  "https://cdn-icons-png.flaticon.com/512/942/942748.png",
+  "https://cdn-icons-png.flaticon.com/512/616/616408.png",
+  "https://cdn-icons-png.flaticon.com/512/833/833472.png"
+];
+function createFloating(){
+  if(!floatingActive)return;
+  const f=document.createElement('div');
+  f.classList.add('floating');
+  f.style.left=Math.random()*100+'vw';
+  f.style.backgroundImage=`url(${icons[Math.floor(Math.random()*icons.length)]})`;
+  const dur=10+Math.random()*10;
+  f.style.animationDuration=dur+'s';
+  document.body.appendChild(f);
+  setTimeout(()=>f.remove(),(dur*1000)+500);
+}
+function startFloating(){
+  if(floatingActive)return;
+  if(new Date()>=targetDate)return;
+  floatingActive=true;
+  createFloating();
+  floatingInterval=setInterval(createFloating,1000);
+}
+function stopFloating(){
+  floatingActive=false;
+  if(floatingInterval){clearInterval(floatingInterval);floatingInterval=null;}
+  document.querySelectorAll('.floating').forEach(el=>el.remove());
+}
+if(new Date()<targetDate){startFloating();}
+
+// confetti
+function startConfetti(){
+  const canvas=document.getElementById('confetti-canvas');
+  const ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+  const confettiCount=150;
+  const confetti=[];
+  for(let i=0;i<confettiCount;i++){
+    confetti.push({
+      x:Math.random()*canvas.width,
+      y:Math.random()*canvas.height-canvas.height,
+      r:Math.random()*6+4,
+      d:Math.random()*confettiCount+10,
+      color:`hsl(${Math.random()*360},100%,50%)`
+    });
+  }
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    confetti.forEach(c=>{
+      ctx.beginPath();
+      ctx.fillStyle=c.color;
+      ctx.ellipse(c.x,c.y,c.r,c.r/2,Math.random()*Math.PI,0,2*Math.PI);
+      ctx.fill();
+    });
+    update();
+    requestAnimationFrame(draw);
+  }
+  function update(){
+    confetti.forEach(c=>{
+      c.y += (Math.cos(c.d)+3 + c.r/2)/2;
+      c.x += Math.sin(0.5);
+      if(c.y>canvas.height){
+        c.x=Math.random()*canvas.width;
+        c.y=-10;
+      }
+    });
+  }
+  draw();
+}
+window.addEventListener('resize',()=>{
+  const canvas=document.getElementById('confetti-canvas');
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+});
+
+// switch to invitation when NEXT is clicked
+nextBtn.addEventListener('click',()=>{
+  window.location.href = "invitation.html";
+});
+
+const music   = document.getElementById('bgMusic');
+  const musicBtn = document.getElementById('musicBtn');
+
+  musicBtn.addEventListener('click', () => {
+    if (music.paused) {
+      music.play();
+      musicBtn.textContent = '⏸';   // show pause icon
+    } else {
+      music.pause();
+      musicBtn.textContent = '▶';   // show play icon
+    }
+  });
+
+  // unmute on first user interaction
+document.addEventListener('click', () => {
+  music.play();
+  musicBtn.textContent = '⏸'; // show pause icon because it's playing
+}, { once: true });
+
+</script>
 </body>
 </html>
