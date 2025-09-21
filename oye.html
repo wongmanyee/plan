@@ -98,7 +98,7 @@
 
   <div class="bottom-buttons">
     <button onclick="emergency()">Emergency</button>
-    <button onclick="clearCode()">Cancel</button>
+    <button id="cancelDelete" onclick="handleCancelDelete()">Cancel</button>
     </div>
 </div>
 
@@ -114,20 +114,40 @@
         if(entered === correct){
           window.location.href = "humandiary.html"; 
         } else {
-          alert("Wrong code!");
+          alert("Please try again!");
           clearCode();
         }
       }
     }
+    updateCancelDelete();
   }
+
   function updateDots(){
     document.querySelectorAll('.dot').forEach((dot, i) => {
       dot.classList.toggle('filled', i < entered.length);
     });
   }
+
   function clearCode(){
     entered = "";
     updateDots();
+    updateCancelDelete();
+  }
+
+  function updateCancelDelete(){
+    const btn = document.getElementById("cancelDelete");
+    btn.textContent = entered.length > 0 ? "Delete" : "Cancel";
+  }
+
+  function handleCancelDelete(){
+    if (entered.length > 0) {
+      // Delete last digit
+      entered = entered.slice(0, -1);
+      updateDots();
+      updateCancelDelete();
+    } else {
+      window.location.href = "main.html";
+    }
   }
 
   function emergency(){

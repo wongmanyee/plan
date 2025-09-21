@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Celebration – 22 Oct 2025</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #fdf6f0;
+    color: #333;
+    text-align: center;
+    padding: 40px;
+  }
+  h1 {
+    color: #c95d63;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+  }
+  .hero-img {
+    max-width: 300px;
+    width: 80%;
+    height: auto;
+    border-radius: 20px;
+    margin: 20px auto;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+  .details, .extra {
+    margin-top: 20px;
+    font-size: 1.2em;
+    line-height: 1.6;
+  }
+  .extra strong {
+    color: #c95d63;
+  }
+  .gift-code {
+    margin: 30px auto;
+    padding: 20px;
+    max-width: 300px;
+    border: 2px dashed #c95d63;
+    border-radius: 10px;
+    background: #fff;
+    font-size: 1.3em;
+    display: none; /* hidden until revealed */
+  }
+  .reveal-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #c95d63;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .reveal-btn:hover {
+    background: #a0444b;
+  }
+  .footer {
+    margin-top: 40px;
+    font-style: italic;
+    color: #777;
+  }
+  /* --- Media button --- */
+  .music-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    height: 70px;
+    margin-top: 40px;
+    border-radius: 50%;
+    background: #c95d63;
+    color: white;
+    font-size: 2.5rem;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: background 0.3s, transform 0.2s;
+  }
+  .music-btn:hover {
+    background: #a7464c;
+    transform: scale(1.05);
+  }
+
+  .extra p:last-child {
+  margin-top: 15px;
+  font-weight: bold;
+  color: #a7464c;
+}
+
+</style>
+</head>
+<body>
+
+<h1>🎉 You're Invited to my Human Diary Birthday Celebration! 🎉</h1>
+
+<img src="IMG_2584.jpg" alt="Birthday Celebration" class="hero-img">
+
+<p class="details">
+  I can’t wait to celebrate your special day!<br><br>
+  <strong>Date:</strong> Wednesday, 22 October 2025<br>
+  <strong>Time:</strong> 6:00 PM (or your chosen time)<br>
+  <strong>Place:</strong> Giggles & Geeks<br><br>
+  Let’s enjoy an evening of laughter, and delicious food!
+</p>
+
+<div class="extra">
+  <p><strong>Theme:</strong> Starry Night – sparkles & shades of navy blue ✨</p>
+  <p><strong>Dress Code:</strong> Casual – jeans & comfy shoes 👖✨</p>
+  <p><strong>Date Etiquette:</strong>  📵 Put the world on pause, let your phone fall silent, so only the quiet heartbeat of our two souls sings beneath the same sky. 💞</p>
+</div>
+
+<button class="reveal-btn" onclick="document.querySelector('.gift-code').style.display='block'">
+  🎁 Reveal Gift Code
+</button>
+
+<div class="gift-code">
+  Your Gift Code: <strong>OYE35BDAYGIFT</strong>
+</div>
+
+<p class="footer">With love,<br>MY</p>
+
+<!-- Hidden audio -->
+<audio id="bgMusic" src="song.mp3" loop></audio>
+
+<!-- circular button -->
+<button id="musicBtn" class="music-btn">▶</button>
+
+<script>
+const music = document.getElementById('bgMusic');
+const musicBtn = document.getElementById('musicBtn');
+
+// Play/pause toggle
+musicBtn.addEventListener('click', () => {
+  if (music.paused) {
+    music.play();
+    musicBtn.textContent = '⏸';
+  } else {
+    music.pause();
+    musicBtn.textContent = '▶';
+  }
+});
+
+// Unmute/play on first user interaction (required for autoplay in browsers)
+document.addEventListener('click', () => {
+  if (music.paused) {
+    music.play().catch(err => console.log('Autoplay prevented'));
+    musicBtn.textContent = '⏸';
+  }
+}, { once: true });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iPhone 15 Lockscreen</title>
+<style>
+  html,body {
+    margin:0; padding:0;
+    height:100%;
+    overflow:hidden;
+    font-family:-apple-system, BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+    -webkit-user-select:none;
+    user-select:none;
+    background:#000;
+  }
+
+  /* ---------------- WALLPAPER ---------------- */
+  .screen {
+    position:relative;
+    width:100%;
+    height:100%;
+    background:url('IMG_4123.jpg') center/cover no-repeat;
+    color:#fff;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+  }
+
+  /* ---------------- DYNAMIC ISLAND ---------------- */
+  .dynamic-island {
+    position:absolute;
+    top:16px;
+    left:50%;
+    transform:translateX(-50%);
+    width:150px;
+    height:40px;
+    background:#000;
+    border-radius:25px;
+    box-shadow:0 0 10px rgba(0,0,0,0.4);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  }
+  .camera-cut {
+    width:20px;
+    height:20px;
+    background:#111;
+    border-radius:50%;
+    margin-left:10px;
+  }
+
+  /* ---------------- TIME & DATE ---------------- */
+  .time-container {
+    margin-top:80px;
+    text-align:center;
+    text-shadow:0 0 12px rgba(0,0,0,0.6);
+  }
+  .time {
+    font-size:6em;
+    font-weight:200;
+    letter-spacing:1px;
+    line-height:1;
+  }
+  .date {
+    font-size:1.3em;
+    margin-top:8px;
+    font-weight:400;
+  }
+
+  /* ---------------- SWIPE HINT ---------------- */
+  .swipe-hint {
+    margin-bottom:60px;
+    text-align:center;
+    font-size:1.1em;
+    text-shadow:0 0 10px rgba(0,0,0,0.6);
+    animation: bounce 1.5s infinite;
+  }
+  @keyframes bounce {
+    0%,100% {transform:translateY(0);}
+    50% {transform:translateY(-12px);}
+  }
+
+  /* ---------------- FADE OUT ANIMATION ---------------- */
+  .fade-out {
+    animation: fadeOut 0.7s forwards;
+  }
+  @keyframes fadeOut {
+    to {opacity:0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="screen" id="screen">
+
+  <!-- Dynamic Island -->
+  <div class="dynamic-island">
+    <div class="camera-cut"></div>
+  </div>
+
+  <!-- Time and Date -->
+  <div class="time-container">
+    <div class="time" id="time">00:00</div>
+    <div class="date" id="date">Monday, 1 Jan</div>
+  </div>
+
+  <!-- Swipe Up Hint -->
+  <div class="swipe-hint">⬆︎  Swipe up to unlock</div>
+
+</div>
+
+<script>
+/* ---------- Live clock ---------- */
+function updateClock(){
+  const t = new Date();
+  const hours = t.getHours().toString().padStart(2,'0');
+  const mins  = t.getMinutes().toString().padStart(2,'0');
+  document.getElementById('time').textContent = `${hours}:${mins}`;
+
+  const options = { weekday:'long', month:'long', day:'numeric'};
+  document.getElementById('date').textContent =
+      t.toLocaleDateString(undefined, options);
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+/* ---------- Swipe up detection ---------- */
+const screen = document.getElementById('screen');
+let startY = null;
+
+function triggerNext(){
+  screen.classList.add('fade-out');
+  setTimeout(()=>{ window.location.href = "oye.html"; }, 700);
+}
+
+screen.addEventListener('touchstart', e => { startY = e.touches[0].clientY; });
+screen.addEventListener('touchend', e => {
+  if(startY !== null){
+    if(startY - e.changedTouches[0].clientY > 50){
+      triggerNext();
+    }
+    startY = null;
+  }
+});
+
+// desktop testing
+screen.addEventListener('mousedown', e => { startY = e.clientY; });
+screen.addEventListener('mouseup', e => {
+  if(startY !== null){
+    if(startY - e.clientY > 50){
+      triggerNext();
+    }
+    startY = null;
+  }
+});
+</script>
+
+</body>
+</html>
