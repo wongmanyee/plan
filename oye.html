@@ -14,7 +14,7 @@
   /* left side picture */
   .image-side {
     flex:1;
-    background:url('IMG_4123.jpg') center/cover no-repeat;
+    background:url('your-photo.jpg') center/cover no-repeat;
   }
   /* right side lock screen */
   .lock-side {
@@ -74,6 +74,8 @@
 </head>
 <body>
 
+<div class="image-side"></div>
+
 <div class="lock-side">
   <h1>Enter Passcode</h1>
 
@@ -98,12 +100,12 @@
 
   <div class="bottom-buttons">
     <button onclick="emergency()">Emergency</button>
-    <button id="cancelDelete" onclick="handleCancelDelete()">Cancel</button>
+    <button onclick="clearCode()">Cancel</button>
     </div>
 </div>
 
 <script>
-  const correct = "1212";    
+  const correct = "1212";    // ← change to your passcode
   let entered = "";
 
   function press(num){
@@ -112,44 +114,25 @@
       updateDots();
       if(entered.length === correct.length){
         if(entered === correct){
-          window.location.href = "humandiary.html"; 
+          window.location.href = "humandiary.html"; // ← target page
         } else {
-          alert("Please try again!");
+          alert("Wrong code!");
           clearCode();
         }
       }
     }
-    updateCancelDelete();
   }
-
   function updateDots(){
     document.querySelectorAll('.dot').forEach((dot, i) => {
       dot.classList.toggle('filled', i < entered.length);
     });
   }
-
   function clearCode(){
     entered = "";
     updateDots();
-    updateCancelDelete();
   }
 
-  function updateCancelDelete(){
-    const btn = document.getElementById("cancelDelete");
-    btn.textContent = entered.length > 0 ? "Delete" : "Cancel";
-  }
-
-  function handleCancelDelete(){
-    if (entered.length > 0) {
-      // Delete last digit
-      entered = entered.slice(0, -1);
-      updateDots();
-      updateCancelDelete();
-    } else {
-      window.location.href = "main.html";
-    }
-  }
-
+  // 👇 Replace the phone number with the one you want to open in WhatsApp
   function emergency(){
    // window.open("https://wa.me/60163618084", "_blank");
     window.location.href = "facetime-audio:+60163618084";
