@@ -3,17 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Birthday Countdown</title>
+<title>Countdown to 22 Oct 2025</title>
 <style>
-  html,body{
-    margin:0;padding:0;height:100%;
+  html,body{   
+    margin:0;
+    padding:0;
+    height:100%;
     font-family:"Comic Sans MS","Trebuchet MS",sans-serif;
     color:#fff;
   }
   /* Pastel background */
   body{
     background:linear-gradient(120deg,#ffdde1,#ee9ca7,#a1c4fd,#c2e9fb);
-    background-size:400% 400%;animation:pastelBG 15s ease infinite;
+    background-size:400% 400%;
+    animation:pastelBG 15s ease infinite;
   }
   @keyframes pastelBG{
     0%{background-position:0% 50%}
@@ -38,8 +41,7 @@
     font-size:3em;
     margin:20px;
     text-shadow:2px 2px 4px #000;
-    color:#c95d63;
-    text-shadow:none}
+    color:#c95d63}
 
   #timer{
     font-size:2.5em;
@@ -152,7 +154,7 @@
 <body>
 
 <!-- Countdown screen -->
-<div id="countdown-section" style="overflow: hidden;">
+<div id="countdown-section">
   <h1>Countdown to Human Diary Birthday 🎂</h1>
   <div id="timer">Loading…</div>
   <button id="next-btn">Next ➜</button>
@@ -165,37 +167,38 @@
     
   <img src="IMG_2584.JPG" alt="Birthday Celebration" class="inv-img">
 
-<p class="details">
-  I can’t wait to celebrate your special day!<br><br>
-  <strong>Date:</strong> Wednesday, 22 October 2025<br>
-  <strong>Time:</strong> 6:00 PM (or your chosen time)<br>
-  <strong>Place:</strong> [Insert venue or address]<br><br>
-</p>
+  <p class="details">
+    I can’t wait to celebrate your special day!<br><br>
+    <strong>Date:</strong> Wednesday, 22 October 2025<br>
+    <strong>Time:</strong> 11:00 AM (or your chosen time)<br>
+    <strong>Place:</strong> 10 gram<br><br>
+    Let’s enjoy an evening of laughter, and delicious food!
+  </p>
 
-<div class="extra">
-  <p><strong>Theme:</strong> Starry Night – sparkles & shades of navy blue ✨</p>
-  <p><strong>Dress Code:</strong> Smart casual with a touch of silver 💫</p>
-  <p><strong>Notes:</strong> Come hungry and ready for a fun night! 🎶</p>
-</div>
-<p class="details">
-  Let’s enjoy an evening of laughter, good food and surprises!
-</p>
+  <div class="extra">
+    <p><strong>Theme:</strong> Starry Night – sparkles & shades of navy blue ✨</p>
+    <p><strong>Dress Code:</strong> Casual – jeans & comfy shoes 👖✨</p>
+    <p><strong>Date Etiquette:</strong>  📵 Put the world on pause, let your phone fall silent, so only the quiet heartbeat of our two souls sings beneath the same sky. 💞</p>
+  </div>
+  <p class="details">
+    Let’s enjoy an evening of laughter, good food and surprises!
+  </p>
 
 
-<button class="reveal-btn" onclick="document.querySelector('.gift-code').style.display='block'">
-  🎁 Reveal Gift Code
-</button>
+  <button class="reveal-btn" onclick="document.querySelector('.gift-code').style.display='block'">
+    🎁 Reveal Gift Code
+  </button>
 
-<div class="gift-code">
-  Your Gift Code: <strong>OYE35BDAYGIFT</strong>
-</div>
-  <p class="footer">Best wishes,<br>MY</p>
+  <div class="gift-code">
+    Your Gift Code: <strong>OYE35BDAYGIFT</strong>
+  </div>
+    <p class="footer">Best wishes,<br>MY</p>
 
-<!-- 🎶 Hidden audio -->
-<audio id="bgMusic" src="message.mp3" autoplay loop></audio>
+  <!-- 🎶 Hidden audio -->
+  <audio id="bgMusic" src="message.mp3" autoplay loop></audio>
 
-<!-- ▶/⏸ circular button -->
-<button id="musicBtn" class="music-btn">▶</button>
+  <!-- ▶/⏸ circular button -->
+  <button id="musicBtn" class="music-btn">▶</button>
 </div>
 <canvas id="confetti-canvas"></canvas>
 
@@ -209,10 +212,10 @@ let confettiStarted = false;
 let floatingInterval;
 let floatingActive = false;
 
-function updateTimer(){
-  const now = new Date();
-  const diff = targetDate - now;
 
+function updateTimer(){
+const now = new Date();
+const diff = targetDate - now;
   if (diff <= 0) {
     if (!confettiStarted){
       stopFloating();
@@ -328,7 +331,7 @@ nextBtn.addEventListener('click',()=>{
 });
 
 const music   = document.getElementById('bgMusic');
-  const musicBtn = document.getElementById('musicBtn');
+const musicBtn = document.getElementById('musicBtn');
 
   musicBtn.addEventListener('click', () => {
     if (music.paused) {
@@ -342,10 +345,16 @@ const music   = document.getElementById('bgMusic');
 
   // unmute on first user interaction
 document.addEventListener('click', () => {
-  music.play();
-  musicBtn.textContent = '⏸'; // show pause icon because it's playing
-}, { once: true });
-
+  const now = new Date();
+  const diff = targetDate - now;
+  if (diff <= 0) {
+    music.play();
+    musicBtn.textContent = '⏸';
+  
+  }else{
+    music.paused();
+  }
+},{ once: true });
 </script>
 </body>
 </html>
